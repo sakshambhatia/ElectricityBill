@@ -46,7 +46,10 @@ import java.util.Scanner;
 					String name = s.next();
 					System.out.println("Enter Your Aadhar Number");
 					long custId = s.nextLong();
-					System.out.println(conn.addCustomer(custId, name)+" is your connection number");
+					System.out.println("Adding Customer");
+					int connNumber = conn.addCustomer(custId, name);
+					System.out.println(connNumber);
+					
 					break;
 				case "2":
 					System.out.println("Enter connection Number");
@@ -107,7 +110,7 @@ import java.util.Scanner;
 				switch(choice2) {
 					
 					case "1": 
-						System.out.println(conn.billCurrent(connectionNumber) +" is your current bill");
+						System.out.println(conn.billCurrent(connectionNumber));
 						break;
 					case "2": 
 						System.out.println(conn.billPay(connectionNumber));

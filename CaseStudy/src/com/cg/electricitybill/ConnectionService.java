@@ -11,9 +11,9 @@ public class ConnectionService {
 	HashMap<Integer, Customer> list = new HashMap<Integer, Customer>(); 
 	Customer c = new Customer();
 	public int addCustomer(long custId, String name) {
-		int connectionNumber = new Random().nextInt(900000) + 100000;
-		while(!list.containsKey(connectionNumber)) {
-			connectionNumber = new Random().nextInt(900000) + 100000;
+		int connectionNumber = new Random().nextInt(9000) + 1000;
+		while(list.containsKey(connectionNumber)) {
+			connectionNumber = new Random().nextInt(9000) + 1000;
 		}
 		Stack<Bill> billStack = new Stack<Bill>();
 		c = new Customer(custId,name,billStack,connectionNumber);
@@ -23,6 +23,9 @@ public class ConnectionService {
 	
 	public float billCurrent(int connectionNumber) {
 		c = list.get(connectionNumber);
+		if(c.getBillStack().empty()) {
+			return 0;
+		}
 		Bill bill = c.getBillStack().peek();
 		return bill.getAmount();
 	}
@@ -40,7 +43,12 @@ public class ConnectionService {
 	public ArrayList<Float> billSixMonths(int connectionNumber) {
 		c = list.get(connectionNumber);
 		Stack<Bill> billStack = c.getBillStack();
+		
 		ArrayList<Float> billList = new ArrayList<Float>();
+		if(billStack.empty()) {
+			billList.add((float) 0);
+			return billList;
+		}
 		int i=0;
 		for(Bill bill:billStack) {
 			billList.add(bill.getAmount());
@@ -53,9 +61,9 @@ public class ConnectionService {
 		
 	}
 	public int addConnection(Customer cust) {
-		int connectionNumber = new Random().nextInt(900000) + 100000;
-		while(!list.containsKey(connectionNumber)) {
-			connectionNumber = new Random().nextInt(900000) + 100000;
+		int connectionNumber = new Random().nextInt(9000) + 1000;
+		while(list.containsKey(connectionNumber)) {
+			connectionNumber = new Random().nextInt(9000) + 1000;
 		}
 		Stack<Bill> billStack = new Stack<Bill>();
 		Customer cust1 = new Customer(cust.getCustId(),cust.getName(),billStack,cust.getConnectionNumber());
@@ -77,7 +85,7 @@ public class ConnectionService {
 		
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH);
-		if((bill.getYear()==year && bill.getMonth()>month)||(bill.getYear()>year)) {
+		if((bill.getYear()==year && bill.getMonth()>month)||(bill.getYear()>year)||bill.getMonth()>12) {
 			return false;
 		}
 		Customer cust = getCustomer(connectionNumber);
